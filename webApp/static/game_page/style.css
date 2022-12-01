@@ -1,0 +1,42 @@
+
+
+#chatbox {
+    position: absolute;
+    margin-left: 5%;
+    width: 80%;
+    bottom: 5%;
+    padding: 2%;
+    border: solid 5px  #5b2d4e;
+    border-radius: 20px;
+    background-color: rgba(91, 45, 78, 40%);
+}
+
+.buttonHolder {
+    display: grid;
+    grid-template-areas: ". . a . . b . . ";
+}
+
+button {
+    width: 80%;
+    background: #FFAFE9;
+    border: none;
+    border-radius: 6px;
+    color :white;
+    box-shadow: -2px 2px 2px grey;
+    font-size: 1.3vw;
+    padding: 0.7vw;
+}
+
+
+button:active{
+    background-color: #d46bb7;
+}
+
+#optionA{
+    grid-area: a;
+}
+
+
+#optionB{
+    grid-area: b;
+}

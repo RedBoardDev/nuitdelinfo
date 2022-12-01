@@ -63,14 +63,15 @@ button {
     padding: 0.7vw;
 }
 
+button:active{
+    background-color: #d46bb7;
+}
+
 p , a{
     color:  #00000057;
     text-decoration: none;
 }
 
-button:active{
-    background-color: black;
-}
 
 a:hover{
     color:  #00000083;
@@ -79,8 +80,6 @@ a:hover{
 .imageHolder,.contener,.form_reg{
     border-radius: 7px;
 }
-
-
 
 img {
     padding: 20%;
