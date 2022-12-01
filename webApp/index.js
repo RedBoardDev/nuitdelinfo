@@ -4,13 +4,15 @@ const utils = require("./utils")
 const mysql = require('mysql2');
 
 
-// const con = mysql.createConnection({
-//     host: process.env.MYSQL_HOST,
-//     user: process.env.MYSQL_USER,
-//     database: "websiteNI"
-//   });
+const con = mysql.createConnection({
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: "websiteNI"
+  });
 
-const con = null
+  console.log(con)
+// const con = null
 
 
 const post_route = require("./api/post/index")(con)
