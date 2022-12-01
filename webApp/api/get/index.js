@@ -1,7 +1,9 @@
 const express = require('express');
 
-const get_route = express.Router()
-get_route.get("/", require("./ListGet"));
+module.exports = (con) => {
+    var get_route = express.Router()
 
-
-module.exports = get_route;
+    get_route.get("/", require("./ListGet"));
+    
+    return get_route
+}
