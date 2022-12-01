@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express()
-const utils = require("./utils")
+// const utils = require("./utils")
 const mysql = require('mysql2');
+const utils = require("./utils")
 require('dotenv').config()
 
 console.log(process.env.MYSQL_USER)
@@ -11,16 +12,18 @@ const con = mysql.createConnection({
     user: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
     database: "websiteNI"
-  });
-
-  // console.log(con)
+});
 
 
-// const con = null
 
 
-const post_route = require("./api/post/index")(con)
-const get_route = require("./api/get/index")(con)
+utils.init(con)
+
+
+
+const post_route = require("./api/post/index")
+const get_route = require("./api/get/index")
+
 
 app.use(express.json())
 app.use("/", post_route)

@@ -1,9 +1,3 @@
-const currentTimestamp = require("./currentTimestamp")
-const random = require("./random")
-const getUserWithId = require("./getUserWithId")
+const utils = require("./utils")
 
-module.exports = {
-    currentTimestamp,
-    random,
-    getUserWithId
-};
+module.exports = new utils()

@@ -1,7 +1,6 @@
 const utils = require("../../utils")
 
 const ListPost = (req, res) => {
-
     try {
         out = {"data" : [
             "/"
