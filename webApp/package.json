@@ -1,6 +1,10 @@
 {
   "dependencies": {
+<<<<<<< HEAD
     "bcrypt": "^5.1.0",
+=======
+    "bcryptjs": "^2.4.3",
+>>>>>>> f36548bde3a4d07cc7fe9fb9ef93cefae94f4413
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "jsonwebtoken": "^8.5.1",
