@@ -2,7 +2,9 @@ const express = require('express');
 const app = express()
 const utils = require("./utils")
 const mysql = require('mysql2');
+require('dotenv').config()
 
+console.log(process.env.MYSQL_USER)
 
 const con = mysql.createConnection({
     host: process.env.MYSQL_HOST,
@@ -11,7 +13,9 @@ const con = mysql.createConnection({
     database: "websiteNI"
   });
 
-  console.log(con)
+  // console.log(con)
+
+
 // const con = null
 
 
