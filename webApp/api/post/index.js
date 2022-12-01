@@ -1,7 +1,9 @@
 const express = require('express');
 
-const post_route = express.Router()
-post_route.get("/", require("./ListPost"));
+module.exports = (con) => {
+    var post_route = express.Router()
 
-
-module.exports = post_route;
+    post_route.post("/", require("./ListPost"));
+    
+    return post_route
+}

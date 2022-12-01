@@ -1,7 +1,10 @@
 const express = require('express');
 
-const get_route = express.Router()
-get_route.get("/", require("./ListGet"));
+module.exports = (con) => {
+    var get_route = express.Router()
 
+    get_route.get("/", require("./ListGet"));
+    get_route.get("/register", require("./register"));
 
-module.exports = get_route;
+    return get_route
+}
