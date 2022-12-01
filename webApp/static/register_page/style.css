@@ -1,0 +1,30 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.contener{
+    display: flex;
+    width: 51%;
+    flex-direction: row;
+    margin-left: 24.5%;
+    margin-top: 11.2%;
+    background-color: white;
+}
+
+
+.imageHolder {
+    background-color: var(--mainPink);
+    width: 42.3%;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    
+}
+
+
+.form_reg {
+    display: flex;
+    flex-direction: column;
+}
+
