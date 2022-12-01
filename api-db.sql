@@ -10,6 +10,7 @@ CREATE TABLE `user` (
     `password` VARCHAR(100) NOT NULL,
     `username` VARCHAR(30) NOT NULL DEFAULT "0",
     `quest_id` INT unsigned NOT NULL DEFAULT 0,
+    `sida_status` TINYINT NOT NULL DEFAULT 0,
     `custom_profil` VARCHAR(10) NOT NULL DEFAULT "0",
     `refresh_token` VARCHAR(256) NOT NULL DEFAULT "0"
 );
