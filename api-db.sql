@@ -15,4 +15,4 @@ CREATE TABLE `user` (
     `refresh_token` VARCHAR(256) NOT NULL DEFAULT "0"
 );
 
-GRANT ALL ON websiteNI.* to WEBSITE@'%' IDENTIFIED BY 'password-NI';
+GRANT ALL ON websiteNI.* to test@'%' IDENTIFIED BY 'password-NI';

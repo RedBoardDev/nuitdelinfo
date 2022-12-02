@@ -16,9 +16,11 @@ const con = mysql.createConnection({
 
 utils.init(con)
 
-utils.CreateRefreshToken("xavier.dupont@gmail.com", "oi", (token) => {
-    console.log(token)
-})
+// utils.CreateRefreshToken("xavier.dupont@gmail.com", "oi", (token) => {
+//     utils.CreateAccessToken(token, (accessToken) => {
+//         console.log("oui")
+//     })
+// })
 
 
 
