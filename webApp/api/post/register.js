@@ -22,8 +22,6 @@ const register = (req, res) => {
                         else
                             res.status(500).json({ msg: "Internal server error" })
                     });
-
-                    // res.status(201).json({ id: rows[0].id});
                 } else
                     res.status(400);
             });
