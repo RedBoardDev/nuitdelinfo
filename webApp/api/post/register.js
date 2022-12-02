@@ -1,9 +1,9 @@
 const utils = require("../../utils")
 const bcrypt = require("../encrypt")
 
-const ListPost = (req, res) => {
-    // var salt = bcrypt.genSaltSync(10);
-    // var hash = bcrypt.hashSync(req.body['password'], salt);
+const register = (req, res) => {
+    var salt = bcrypt.genSaltSync(10);
+    var hash = bcrypt.hashSync(req.body['password'], salt);
     utils.getAllWithEmail(req.body.email, (err, rows) => {
         if (err) res.status(500).json({ msg: "Internal server error" })
         if (rows[0] != undefined) {
@@ -23,4 +23,4 @@ const ListPost = (req, res) => {
     });
 }
 
-module.exports = ListPost;
+module.exports = register;

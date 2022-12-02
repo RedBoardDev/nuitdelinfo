@@ -118,8 +118,6 @@ module.exports = class utils {
         return Math.floor(Math.random() * max);
     }
 
-
-
     getAllWithEmail(email, callback)
     {
         this.con.query(`SELECT * FROM user WHERE email = "${email}";`, (err, result) => {
