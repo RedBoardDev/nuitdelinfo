@@ -63,13 +63,17 @@ button {
     padding: 0.7vw;
 }
 
+button:hover {
+    background-color: #d46bb6;
+    cursor: pointer;
+}
+
 button:active{
-    background-color: #d46bb7;
+    background-color: #d46bb6d5;
 }
 
 p , a{
     color:  #00000057;
-    text-decoration: none;
 }
 
 
