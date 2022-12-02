@@ -12,12 +12,12 @@ module.exports = class utils {
 
         if (!obj)
             return null
-        if (obj.timeout <= this.currentTimestamp()) 
+        if (obj.timeout <= this.currentTimestamp())
             return null
         if (obj.type != "access")
             return null
         //check if userName, email and userId are good in DB
-    
+
         return obj
     }
 
@@ -27,7 +27,7 @@ module.exports = class utils {
 
         if (!obj)
             return null
-        if (obj.timeout <= this.currentTimestamp()) 
+        if (obj.timeout <= this.currentTimestamp())
             return null
         if (obj.type != "refresh")
             return null
@@ -43,7 +43,7 @@ module.exports = class utils {
         let tokObj = this.checkRefreshToken(refreshToken)
         if (!tokObj)
             return null
-        
+
         let userId = 1
         let userName = "fabrice"
         let email = "fabrice.dupont@gmail.com"
@@ -68,19 +68,19 @@ module.exports = class utils {
         this.getUserWithLogins(login, password, (res) => {
             user = res
         })
-    
+
         if (!user)
             return null
-    
+
         let obj = { "timestamp" : this.currentTimestamp(),
                     "timeout" : this.currentTimestamp() + 1209600,
                     "type" : "refresh",
                     "userId" : user.id
                     }
-    
+
         const token = jwt.sign(obj , process.env.TOKEN_SECRET)
-        
-        //set token in db for the user with userId 
+
+        //set token in db for the user with userId
         return token;
     }
 
@@ -94,7 +94,7 @@ module.exports = class utils {
         this.con.query("SELECT * FROM user WHERE id = '" + userID + "';" , (err, result) => {
             if (err)
                 return null
-            if (callback) 
+            if (callback)
                 callback(result)
         })
     }
@@ -105,7 +105,7 @@ module.exports = class utils {
         this.con.query("SELECT * FROM user WHERE login = '" + login + "', password = '" + encryptedPassword + "';" , (err, result) => {
             if (err)
                 return null
-            if (callback) 
+            if (callback)
                 callback(result)
         })
     }
@@ -120,8 +120,25 @@ module.exports = class utils {
         let old = checkRefreshToken(refreshToken)
     }
 
+    getAllWithEmail(email, callback)
+    {
+        this.con.query(`SELECT * FROM user WHERE email = "${email}";`, (err, result) => {
+            if (err)
+                return err
+            if (callback)
+                callback(err, result)
+        })
+    }
 
-
+    postRegister(email, hash, username, callback)
+    {
+        this.con.query(`INSERT INTO user(email, password, username) VALUES("${email}", "${hash}", '${username}')`, (err, result) => {
+            if (err)
+                return err
+            if (callback)
+                callback(err, result)
+        })
+    }
 
 
 }
