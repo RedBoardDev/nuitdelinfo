@@ -11,7 +11,7 @@ module.exports = class utils {
         const obj = jwt.verify(accessToken, process.env.TOKEN_SECRET)
         if (!obj)
             callback (null)
-        if (obj.timeout <= this.currentTimestamp()) 
+        if (obj.timeout <= this.currentTimestamp())
             callback (null)
         if (obj.type != "access")
             callback (null)
@@ -29,7 +29,7 @@ module.exports = class utils {
 
         if (!obj)
             callback (null)
-        if (obj.timeout <= this.currentTimestamp()) 
+        if (obj.timeout <= this.currentTimestamp())
             callback (null)
         if (obj.type != "refresh")
             callback (null)
@@ -48,7 +48,7 @@ module.exports = class utils {
         this.checkRefreshToken(refreshToken, (tokObj) => {
             if (!tokObj)
                 callback(null)
-            
+
             let userId = 1
             let userName = "fabrice"
             let email = "fabrice.dupont@gmail.com"
@@ -66,7 +66,7 @@ module.exports = class utils {
 
             callback (token)
         })
-        
+
     }
 
     CreateRefreshToken(login, password, callback)
@@ -80,7 +80,7 @@ module.exports = class utils {
                         "type" : "refresh",
                         "userId" : user[0].id
                         }
-            
+
             const token = jwt.sign(obj , process.env.TOKEN_SECRET)
             this.UpadateUserRefreshToken(token, user[0].id, (res) => {
                 if (!res)
@@ -119,7 +119,7 @@ module.exports = class utils {
         this.con.query("SELECT * FROM user WHERE id = '" + userID + "';" , (err, result) => {
             if (err)
                 callback(null)
-            if (callback) 
+            if (callback)
                 callback(result)
         })
     }
@@ -130,7 +130,7 @@ module.exports = class utils {
         this.con.query(`SELECT * FROM user WHERE email = "${login}" AND password = "${encryptedPassword}";`, (err, result) => {
             if (err)
                 return null
-            if (callback) 
+            if (callback)
                 callback(result)
         })
     }
@@ -140,9 +140,9 @@ module.exports = class utils {
         return Math.floor(Math.random() * max);
     }
 
-    getAllWithEmail(email, callback)
+    getIDWithEmail(email, callback)
     {
-        this.con.query(`SELECT * FROM user WHERE email = "${email}";`, (err, result) => {
+        this.con.query(`SELECT id FROM user WHERE email = "${email}";`, (err, result) => {
             if (err)
                 return err
             if (callback)
