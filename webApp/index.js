@@ -16,12 +16,6 @@ const con = mysql.createConnection({
 
 utils.init(con)
 
-// utils.CreateRefreshToken("xavier.dupont@gmail.com", "oi", (token) => {
-//     utils.CreateAccessToken(token, (accessToken) => {
-//         console.log("oui")
-//     })
-// })
-
 
 
 const post_route = require("./api/post/index")
