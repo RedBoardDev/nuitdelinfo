@@ -27,18 +27,25 @@ module.exports = class utils {
     {
         const obj = jwt.verify(refreshToken, process.env.TOKEN_SECRET)
 
-        if (!obj)
+        if (!obj) {
             callback (null)
-        if (obj.timeout <= this.currentTimestamp())
+            return
+        } if (obj.timeout <= this.currentTimestamp()) {
             callback (null)
-        if (obj.type != "refresh")
+            return
+        } if (obj.type != "refresh") {
             callback (null)
+            return
+        }
 
         this.getUserWithId(obj.userId ,(res) => {
-            if (res)
+            if (res) {
                 callback(obj)
-            else
+                return
+            } else {
                 callback(null)
+                return
+            }
         })
     }
 
@@ -46,8 +53,10 @@ module.exports = class utils {
     CreateAccessToken(refreshToken, callback)
     {
         this.checkRefreshToken(refreshToken, (tokObj) => {
-            if (!tokObj)
+            if (!tokObj) {
                 callback(null)
+                return
+            }
 
             let userId = 1
             let userName = "fabrice"
@@ -65,6 +74,7 @@ module.exports = class utils {
             const token = jwt.sign(obj , process.env.TOKEN_SECRET)
 
             callback (token)
+            return
         })
 
     }
@@ -85,7 +95,6 @@ module.exports = class utils {
             const token = jwt.sign(obj , process.env.TOKEN_SECRET)
             this.UpadateUserRefreshToken(token, user[0].id, (res) => {
                 if (!res) {
-                    
                     callback(null)
                     return
                 } else {
@@ -122,20 +131,26 @@ module.exports = class utils {
     getUserWithId(userID, callback)
     {
         this.con.query("SELECT * FROM user WHERE id = '" + userID + "';" , (err, result) => {
-            if (err)
+            if (err) {
                 callback(null)
-            if (callback)
+                return
+            } if (callback) {
                 callback(result)
+                return
+            }
         })
     }
 
     getUserWithLogins(login, password, callback)
     {
         this.con.query(`SELECT * FROM user WHERE email = "${login}" AND password = "${password}";`, (err, result) => {
-            if (err)
-                return null
-            if (callback)
+            if (err) {
+                callback (null)
+                return
+            } if (callback) {
                 callback(result)
+                return
+            }
         })
     }
 
