@@ -62,26 +62,29 @@ module.exports = class utils {
         return token
     }
 
-    CreateRefreshToken(login, password)
+    CreateRefreshToken(login, password, callback)
     {
-        let user = null
-        this.getUserWithLogins(login, password, (res) => {
-            user = res
+        this.getUserWithLogins(login, password, (user) => {
+            if (!user)
+                callback(null)
+
+            let obj = { "timestamp" : this.currentTimestamp(),
+                        "timeout" : this.currentTimestamp() + 1209600,
+                        "type" : "refresh",
+                        "userId" : user[0].id
+                        }
+
+            const token = jwt.sign(obj , process.env.TOKEN_SECRET)
+
+            //set the new refresh token in the db for the userID
+
+            callback(token)
         })
+    }
 
-        if (!user)
-            return null
-
-        let obj = { "timestamp" : this.currentTimestamp(),
-                    "timeout" : this.currentTimestamp() + 1209600,
-                    "type" : "refresh",
-                    "userId" : user.id
-                    }
-
-        const token = jwt.sign(obj , process.env.TOKEN_SECRET)
-
-        //set token in db for the user with userId
-        return token;
+    revokeRefreshToken(refreshToken)
+    {
+        let old = checkRefreshToken(refreshToken)
     }
 
     currentTimestamp()
@@ -102,7 +105,7 @@ module.exports = class utils {
     getUserWithLogins(login, password, callback)
     {
         let encryptedPassword = password
-        this.con.query("SELECT * FROM user WHERE login = '" + login + "', password = '" + encryptedPassword + "';" , (err, result) => {
+        this.con.query(`SELECT * FROM user WHERE email = "${login}" AND password = "${encryptedPassword}";`, (err, result) => {
             if (err)
                 return null
             if (callback)
@@ -115,10 +118,7 @@ module.exports = class utils {
         return Math.floor(Math.random() * max);
     }
 
-    revokeRefreshToken(refreshToken)
-    {
-        let old = checkRefreshToken(refreshToken)
-    }
+
 
     getAllWithEmail(email, callback)
     {
