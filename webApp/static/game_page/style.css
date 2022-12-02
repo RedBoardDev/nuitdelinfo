@@ -1,9 +1,8 @@
 
-
 #chatbox {
     position: absolute;
-    margin-left: 5%;
     width: 80%;
+    left: 7%;
     bottom: 5%;
     padding: 2%;
     border: solid 5px  #5b2d4e;
