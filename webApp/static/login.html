@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Log In</title>
+    <link rel="stylesheet" href="./form_style.css">
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <script src="/script.js"></script>
+    <script>
+        document.addEventListener("keypress", function (e){
+            if (e.key === 'Enter') {
+                sendLogin()
+            }
+        }, false)
+    </script>
+</head>
+<body>
+    <div class="contener">
+        <div class="imageHolder">
+            <img src="/asset/logo.png" alt="logo">
+        </div>
+
+        <div class="form">
+            <h3>Vous Revoilà ?</h3>
+            <input type="email" id="email" placeholder="email">
+            <input type="password" name="" id="pass" placeholder="password">
+            <button type="button" onclick="sendLogin()">Connexion</button>
+            <p>
+                Pas de compte ? 
+                <a href="/register.html">Crees-en un !</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

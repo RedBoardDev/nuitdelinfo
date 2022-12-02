@@ -25,6 +25,7 @@ const get_route = require("./api/get/index")
 app.use(express.json())
 app.use("/", post_route)
 app.use("/", get_route)
+app.use(express.static('static'))
 
 app.use(express.static('static'));
 
