@@ -6,60 +6,67 @@ module.exports = class utils {
         this.con = con
     }
 
-    checkAccessToken(accessToken)
+    checkAccessToken(accessToken, callback)
     {
         const obj = jwt.verify(accessToken, process.env.TOKEN_SECRET)
-
         if (!obj)
-            return null
-        if (obj.timeout <= this.currentTimestamp())
-            return null
+            callback (null)
+        if (obj.timeout <= this.currentTimestamp()) 
+            callback (null)
         if (obj.type != "access")
-            return null
-        //check if userName, email and userId are good in DB
-
-        return obj
+            callback (null)
+        this.getUserWithId(obj.userId ,(res) => {
+            if (res && obj.userName == res[0].username && obj.email == res[0].email)
+                callback(obj)
+            else
+                callback(null)
+        })
     }
 
-    checkRefreshToken(refreshToken)
+    checkRefreshToken(refreshToken, callback)
     {
         const obj = jwt.verify(refreshToken, process.env.TOKEN_SECRET)
 
         if (!obj)
-            return null
-        if (obj.timeout <= this.currentTimestamp())
-            return null
+            callback (null)
+        if (obj.timeout <= this.currentTimestamp()) 
+            callback (null)
         if (obj.type != "refresh")
-            return null
+            callback (null)
 
-        //check if token and userId are good in db
-
-        return obj;
+        this.getUserWithId(obj.userId ,(res) => {
+            if (res)
+                callback(obj)
+            else
+                callback(null)
+        })
     }
 
 
-    CreateAccessToken(refreshToken)
+    CreateAccessToken(refreshToken, callback)
     {
-        let tokObj = this.checkRefreshToken(refreshToken)
-        if (!tokObj)
-            return null
+        this.checkRefreshToken(refreshToken, (tokObj) => {
+            if (!tokObj)
+                callback(null)
+            
+            let userId = 1
+            let userName = "fabrice"
+            let email = "fabrice.dupont@gmail.com"
 
-        let userId = 1
-        let userName = "fabrice"
-        let email = "fabrice.dupont@gmail.com"
+            let obj = {
+                "timestamp" : this.currentTimestamp(),
+                "timeout" : this.currentTimestamp() + 3600 + this.random(1800),
+                "type" : "access",
+                "userId" : userId,
+                "userName" : userName,
+                "email" : email
+            }
 
-        let obj = {
-            "timestamp" : this.currentTimestamp(),
-            "timeout" : this.currentTimestamp() + 3600 + this.random(1800),
-            "type" : "access",
-            "userId" : userId,
-            "userName" : userName,
-            "email" : email
-        }
+            const token = jwt.sign(obj , process.env.TOKEN_SECRET)
 
-        const token = jwt.sign(obj , process.env.TOKEN_SECRET)
-
-        return token
+            callback (token)
+        })
+        
     }
 
     CreateRefreshToken(login, password, callback)
@@ -73,18 +80,24 @@ module.exports = class utils {
                         "type" : "refresh",
                         "userId" : user[0].id
                         }
-
+            
             const token = jwt.sign(obj , process.env.TOKEN_SECRET)
-
-            //set the new refresh token in the db for the userID
-
-            callback(token)
+            this.UpadateUserRefreshToken(token, user[0].id, (res) => {
+                if (!res)
+                    callback(null)
+                else
+                    callback(token)
+            })
         })
     }
 
-    revokeRefreshToken(refreshToken)
+    revokeRefreshToken(refreshToken, callback)
     {
-        let old = checkRefreshToken(refreshToken)
+        this.checkRefreshToken(refreshToken, (obj) => {
+            this.UpadateUserRefreshToken("0", obj.userId, (res) => {
+                callback(res)
+            })
+        })
     }
 
     currentTimestamp()
@@ -92,12 +105,21 @@ module.exports = class utils {
         return Math.floor(Date.now() / 1000)
     }
 
+    UpadateUserRefreshToken(refreshToken, userId, callback) {
+        this.con.query(`UPDATE user SET refresh_token = "${refreshToken}" WHERE id = ${userId}`, (err, result) => {
+            if (err)
+                callback(null)
+            if (result)
+                callback(result)
+        })
+    }
+
     getUserWithId(userID, callback)
     {
         this.con.query("SELECT * FROM user WHERE id = '" + userID + "';" , (err, result) => {
             if (err)
-                return null
-            if (callback)
+                callback(null)
+            if (callback) 
                 callback(result)
         })
     }
@@ -108,7 +130,7 @@ module.exports = class utils {
         this.con.query(`SELECT * FROM user WHERE email = "${login}" AND password = "${encryptedPassword}";`, (err, result) => {
             if (err)
                 return null
-            if (callback)
+            if (callback) 
                 callback(result)
         })
     }
